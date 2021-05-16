@@ -52,4 +52,10 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+.container {
+  margin: auto;
+  max-width: 1024px;
+  text-align: center;
+}
 </style>
