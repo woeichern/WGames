@@ -6,6 +6,10 @@
         <b-button squared variant="dark" class="light" v-else @click="clicklight(index1, index2)"></b-button>
       </span>
     </div>
+    <div class="control-bar">
+      <b-button variant="success" @click="new_game">New Game</b-button>
+      <b-button variant="light">Steps: {{ steps }}</b-button>
+    </div>
   </div>
 </template>
 
@@ -17,37 +21,46 @@ export default {
         STEPS_INITIAL: 12,
         SIZE: 7,
       },
+      steps: 0,
       light_array: [],
     }
   },
   beforeMount: function() {
-    let light_array = [];
-
-    for (let i = 0; i < this.config.SIZE; i++) {
-      let lights = [];
-
-      for (let k = 0; k < this.config.SIZE; k++) {
-        lights.push(0);
-      }
-
-      light_array.push(lights);
-    }
-
-    this.light_array = light_array.slice();
-
-    for (let i = 0; i < this.config.STEPS_INITIAL; i++) {
-      let y = this.get_random_int(this.config.SIZE);
-      let x = this.get_random_int(this.config.SIZE);
-
-      this.clicklight(y, x);
-    }
+    this.new_game();
   },
   methods: {
     get_random_int(max) {
       return Math.floor(Math.random() * max);
     },
 
+    new_game(){
+      let light_array = [];
+
+      for (let i = 0; i < this.config.SIZE; i++) {
+        let lights = [];
+
+        for (let k = 0; k < this.config.SIZE; k++) {
+          lights.push(0);
+        }
+
+        light_array.push(lights);
+      }
+
+      this.light_array = light_array.slice();
+
+      for (let i = 0; i < this.config.STEPS_INITIAL; i++) {
+        let y = this.get_random_int(this.config.SIZE);
+        let x = this.get_random_int(this.config.SIZE);
+
+        this.clicklight(y, x);
+
+        this.steps = 0;
+      }
+    },
+
     clicklight (y, x) {
+      this.steps++;
+
       // Center
       this.light_array[y][x] = +(!this.light_array[y][x]);
 
@@ -78,6 +91,19 @@ export default {
 </script>
 
 <style scoped>
+.control-bar {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-around;
+
+  text-align: center;
+}
+
+.container{
+  margin-top: 40px;
+  max-width: 70vw;
+}
+
 .light {
   width: 8vw;
   height: 8vw;
